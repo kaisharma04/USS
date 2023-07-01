@@ -17,7 +17,7 @@ public class UrlShortnerController {
     private UrlShortnerService urlShortnerService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<HttpStatus> getUrl(@PathVariable String id){
+    public ResponseEntity<HttpStatus> redirectToUrl(@PathVariable String id){
         String target_url = urlShortnerService.getUrlByHash(id);
 
         return ResponseEntity
@@ -25,6 +25,11 @@ public class UrlShortnerController {
                 .location(URI.create(target_url))
                 .header(HttpHeaders.CONNECTION,"close")
                 .build();
+    }
+
+    @GetMapping("/retrieveLinkByHash/{id}")
+    public String getURl(@PathVariable String id){
+        return urlShortnerService.getUrlByHash(id);
     }
 
     @PostMapping("/shortIt")
